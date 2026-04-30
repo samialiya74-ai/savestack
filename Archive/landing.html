@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SubTrack — Stop Wasting Money on Subscriptions</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --primary: #6c63ff;
+  --primary-light: #ede9ff;
+  --primary-dark: #4a42d4;
+  --accent: #ff6584;
+  --green: #2ec4b6;
+  --yellow: #ffbe0b;
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --surface2: #f0f1f8;
+  --text: #1a1a2e;
+  --text2: #6b7280;
+  --border: #e5e7eb;
+  --navy: #1a1a2e;
+  --navy2: #252540;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 60px;
+  background: rgba(245,246,250,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-icon {
+  width: 36px; height: 36px; background: var(--primary);
+  border-radius: 10px; display: flex; align-items: center;
+  justify-content: center; font-size: 18px;
+}
+.nav-logo span { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--primary); }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a { font-size: 14px; color: var(--text2); text-decoration: none; font-weight: 500; transition: color .2s; }
+.nav-links a:hover { color: var(--primary); }
+.nav-cta {
+  background: var(--primary); color: white;
+  padding: 10px 22px; border-radius: 10px;
+  font-size: 14px; font-weight: 600; text-decoration: none;
+  transition: all .2s; border: none; cursor: pointer;
+}
+.nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 800px 500px at 50% 0%, rgba(108,99,255,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 80% 60%, rgba(46,196,182,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 300px 300px at 20% 70%, rgba(255,101,132,0.07) 0%, transparent 60%);
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--primary-light); color: var(--primary);
+  padding: 6px 16px; border-radius: 20px;
+  font-size: 13px; font-weight: 600;
+  margin-bottom: 28px;
+  border: 1px solid rgba(108,99,255,0.2);
+  position: relative; z-index: 1;
+  animation: fadeUp .6s ease both;
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(42px, 7vw, 80px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--navy);
+  max-width: 800px;
+  position: relative; z-index: 1;
+  animation: fadeUp .6s .1s ease both;
+}
+
+.hero h1 .highlight {
+  color: var(--primary);
+  position: relative;
+}
+.hero h1 .highlight::after {
+  content: '';
+  position: absolute; bottom: 2px; left: 0; right: 0;
+  height: 4px; background: var(--primary); border-radius: 4px;
+  opacity: 0.3;
+}
+
+.hero p {
+  font-size: 19px; color: var(--text2); font-weight: 300;
+  max-width: 520px; line-height: 1.7; margin-top: 24px;
+  position: relative; z-index: 1;
+  animation: fadeUp .6s .2s ease both;
+}
+
+.hero-actions {
+  display: flex; gap: 14px; margin-top: 40px;
+  position: relative; z-index: 1;
+  animation: fadeUp .6s .3s ease both;
+  flex-wrap: wrap; justify-content: center;
+}
+
+.btn-hero {
+  padding: 15px 32px; border-radius: 12px;
+  font-size: 15px; font-weight: 600;
+  text-decoration: none; transition: all .2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-hero-primary {
+  background: var(--primary); color: white;
+  box-shadow: 0 8px 32px rgba(108,99,255,0.3);
+}
+.btn-hero-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(108,99,255,0.4); }
+.btn-hero-secondary {
+  background: var(--surface); color: var(--text);
+  border: 1.5px solid var(--border);
+}
+.btn-hero-secondary:hover { background: var(--surface2); transform: translateY(-2px); }
+
+.hero-stats {
+  display: flex; gap: 48px; margin-top: 64px;
+  position: relative; z-index: 1;
+  animation: fadeUp .6s .4s ease both;
+}
+.hero-stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px; font-weight: 800; color: var(--primary);
+}
+.hero-stat-label { font-size: 13px; color: var(--text2); margin-top: 2px; }
+
+/* ── FLOATING CARDS ── */
+.hero-visual {
+  position: relative; z-index: 1; margin-top: 70px;
+  animation: fadeUp .6s .35s ease both;
+  width: 100%; max-width: 700px;
+}
+
+.app-preview {
+  background: var(--navy);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 32px 80px rgba(26,26,46,0.25), 0 0 0 1px rgba(255,255,255,0.06);
+  position: relative;
+}
+
+.preview-bar {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
+}
+.preview-dot { width: 12px; height: 12px; border-radius: 50%; }
+.preview-dot:nth-child(1) { background: #ff5f57; }
+.preview-dot:nth-child(2) { background: #febc2e; }
+.preview-dot:nth-child(3) { background: #28c840; }
+
+.preview-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px;
+}
+.preview-stat {
+  background: var(--navy2);
+  border-radius: 12px; padding: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.preview-stat-label { font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.preview-stat-val { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: white; }
+.preview-stat-sub { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+.ps-accent { border-top: 2px solid var(--primary); }
+.ps-green { border-top: 2px solid var(--green); }
+.ps-accent2 { border-top: 2px solid var(--accent); }
+.ps-yellow { border-top: 2px solid var(--yellow); }
+
+.preview-subs { display: flex; flex-direction: column; gap: 8px; }
+.preview-sub {
+  background: var(--navy2);
+  border-radius: 10px; padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.preview-sub-left { display: flex; align-items: center; gap: 12px; }
+.preview-sub-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.preview-sub-name { font-size: 13px; font-weight: 600; color: white; }
+.preview-sub-cat { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 1px; }
+.preview-sub-price { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--primary); }
+.unused-badge { font-size: 10px; background: rgba(255,101,132,0.2); color: #ff6584; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+
+/* ── FLOATING PILL ── */
+.float-pill {
+  position: absolute;
+  background: var(--surface);
+  border-radius: 14px; padding: 12px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  border: 1px solid var(--border);
+  font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  animation: float 3s ease-in-out infinite;
+  white-space: nowrap;
+}
+.float-pill.left { left: -60px; top: 30%; animation-delay: 0s; }
+.float-pill.right { right: -50px; top: 55%; animation-delay: 1.5s; }
+.pill-icon { font-size: 18px; }
+
+/* ── FEATURES ── */
+.features {
+  padding: 100px 60px;
+  max-width: 1200px; margin: 0 auto;
+}
+
+.section-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800; letter-spacing: -1px;
+  color: var(--navy); margin-bottom: 16px;
+}
+.section-sub { font-size: 17px; color: var(--text2); max-width: 480px; line-height: 1.6; margin-bottom: 56px; font-weight: 300; }
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.feature-card {
+  background: var(--surface);
+  border-radius: 16px; padding: 28px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 16px rgba(108,99,255,0.06);
+  transition: transform .2s, box-shadow .2s;
+}
+.feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(108,99,255,0.12); }
+.feature-card.featured {
+  background: var(--navy);
+  border-color: transparent;
+  grid-column: span 2;
+}
+
+.feature-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 18px;
+}
+.fi-purple { background: var(--primary-light); }
+.fi-green { background: #e0faf8; }
+.fi-red { background: #fff0f3; }
+.fi-yellow { background: #fff8e1; }
+.fi-blue { background: #e0f2fe; }
+.fi-white { background: rgba(255,255,255,0.1); }
+
+.feature-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--navy);
+}
+.feature-card.featured .feature-title { color: white; }
+.feature-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
+.feature-card.featured .feature-desc { color: rgba(255,255,255,0.55); }
+
+/* ── HOW IT WORKS ── */
+.how {
+  background: var(--navy);
+  padding: 100px 60px;
+  text-align: center;
+}
+.how .section-title { color: white; }
+.how .section-sub { color: rgba(255,255,255,0.5); margin: 0 auto 64px; }
+.how .section-tag { color: var(--green); }
+
+.steps {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 32px; max-width: 900px; margin: 0 auto;
+  position: relative;
+}
+.steps::before {
+  content: '';
+  position: absolute; top: 28px; left: calc(16.6% + 28px); right: calc(16.6% + 28px);
+  height: 1px; background: rgba(255,255,255,0.1);
+}
+
+.step { position: relative; }
+.step-num {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(108,99,255,0.2);
+  border: 1px solid rgba(108,99,255,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800;
+  color: var(--primary); margin: 0 auto 20px;
+}
+.step-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: white; margin-bottom: 10px; }
+.step-desc { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+/* ── SAVINGS SECTION ── */
+.savings {
+  padding: 100px 60px;
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+
+.savings-visual {
+  background: var(--surface);
+  border-radius: 20px; padding: 32px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 40px rgba(108,99,255,0.08);
+}
+
+.savings-title-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px;
+}
+.savings-vis-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; }
+.savings-total { font-family: 'Syne', sans-serif; font-size: 13px; color: var(--text2); }
+
+.savings-bar-wrap { margin-bottom: 14px; }
+.sb-top { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+.sb-name { font-weight: 600; }
+.sb-amt { color: var(--text2); }
+.sb-bar { height: 8px; background: var(--surface2); border-radius: 8px; overflow: hidden; }
+.sb-fill { height: 100%; border-radius: 8px; }
+
+.savings-insight {
+  margin-top: 24px; padding: 16px;
+  background: #e0faf8; border-radius: 12px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 13px; color: #0f766e; font-weight: 500;
+}
+.savings-insight-icon { font-size: 20px; }
+
+/* ── CTA ── */
+.cta {
+  margin: 0 60px 80px;
+  background: var(--navy);
+  border-radius: 24px; padding: 80px 60px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 600px 400px at 50% 100%, rgba(108,99,255,0.3) 0%, transparent 70%);
+}
+.cta h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800; color: white; letter-spacing: -1px;
+  position: relative; z-index: 1; margin-bottom: 16px;
+}
+.cta p { font-size: 17px; color: rgba(255,255,255,0.5); position: relative; z-index: 1; margin-bottom: 36px; font-weight: 300; }
+.cta .btn-hero-primary { position: relative; z-index: 1; font-size: 16px; padding: 16px 36px; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 40px 60px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 13px; color: var(--text2);
+}
+footer .nav-logo span { font-size: 16px; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .features { padding: 60px 24px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .feature-card.featured { grid-column: span 1; }
+  .how { padding: 60px 24px; }
+  .steps { grid-template-columns: 1fr; }
+  .steps::before { display: none; }
+  .savings { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+  .cta { margin: 0 24px 60px; padding: 60px 32px; }
+  .hero-stats { gap: 24px; flex-wrap: wrap; justify-content: center; }
+  .hero-visual { display: none; }
+  .float-pill { display: none; }
+  footer { flex-direction: column; gap: 12px; padding: 32px 24px; text-align: center; }
+  .preview-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">💸</div>
+    <span>SubTrack</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#savings">Savings</a>
+  </div>
+  <a class="nav-cta" href="index.html">Open App →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-badge">💸 Stop losing money every month</div>
+
+  <h1>Track every sub.<br>Cut the <span class="highlight">waste</span>.<br>Keep the savings.</h1>
+
+  <p>SubTrack gives you a clear picture of every subscription you're paying for — and helps you cancel the ones you've forgotten about.</p>
+
+  <div class="hero-actions">
+    <a href="index.html" class="btn-hero btn-hero-primary">🚀 Start Tracking Free</a>
+    <a href="#features" class="btn-hero btn-hero-secondary">See how it works</a>
+  </div>
+
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-num">$273</div>
+      <div class="hero-stat-label">avg. monthly sub spend</div>
+    </div>
+    <div style="width:1px;background:var(--border)"></div>
+    <div>
+      <div class="hero-stat-num">47%</div>
+      <div class="hero-stat-label">of subscriptions unused</div>
+    </div>
+    <div style="width:1px;background:var(--border)"></div>
+    <div>
+      <div class="hero-stat-num">$84</div>
+      <div class="hero-stat-label">average monthly savings</div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="float-pill left"><span class="pill-icon">⚠️</span> YouTube unused — save $168/yr</div>
+    <div class="float-pill right"><span class="pill-icon">🔔</span> Netflix due in 3 days</div>
+
+    <div class="app-preview">
+      <div class="preview-bar">
+        <div class="preview-dot"></div>
+        <div class="preview-dot"></div>
+        <div class="preview-dot"></div>
+      </div>
+      <div class="preview-stats">
+        <div class="preview-stat ps-accent">
+          <div class="preview-stat-label">Monthly Spend</div>
+          <div class="preview-stat-val">$109</div>
+          <div class="preview-stat-sub">$1,308/year</div>
+        </div>
+        <div class="preview-stat ps-green">
+          <div class="preview-stat-label">Subscriptions</div>
+          <div class="preview-stat-val">6</div>
+          <div class="preview-stat-sub">services tracked</div>
+        </div>
+        <div class="preview-stat ps-yellow">
+          <div class="preview-stat-label">Due This Week</div>
+          <div class="preview-stat-val">2</div>
+          <div class="preview-stat-sub">upcoming</div>
+        </div>
+        <div class="preview-stat ps-accent2">
+          <div class="preview-stat-label">Potential Savings</div>
+          <div class="preview-stat-val">$252</div>
+          <div class="preview-stat-sub">per year</div>
+        </div>
+      </div>
+      <div class="preview-subs">
+        <div class="preview-sub">
+          <div class="preview-sub-left">
+            <div class="preview-sub-icon" style="background:#2a2050">🎬</div>
+            <div>
+              <div class="preview-sub-name">Netflix</div>
+              <div class="preview-sub-cat">Entertainment</div>
+            </div>
+          </div>
+          <div class="preview-sub-price">$15.99/mo</div>
+        </div>
+        <div class="preview-sub">
+          <div class="preview-sub-left">
+            <div class="preview-sub-icon" style="background:#0c2a3b">▶️</div>
+            <div>
+              <div class="preview-sub-name">YouTube Premium</div>
+              <div class="preview-sub-cat">Entertainment</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="unused-badge">⚠️ Unused</span>
+            <div class="preview-sub-price">$13.99/mo</div>
+          </div>
+        </div>
+        <div class="preview-sub">
+          <div class="preview-sub-left">
+            <div class="preview-sub-icon" style="background:#0a2d1a">🎨</div>
+            <div>
+              <div class="preview-sub-name">Adobe CC</div>
+              <div class="preview-sub-cat">Productivity</div>
+            </div>
+          </div>
+          <div class="preview-sub-price">$54.99/mo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-tag">✦ Features</div>
+  <h2 class="section-title">Everything you need<br>to take control</h2>
+  <p class="section-sub">No more spreadsheets. No more forgetting. One dashboard for all your subscriptions.</p>
+
+  <div class="features-grid">
+    <div class="feature-card featured">
+      <div class="feature-icon fi-white">💡</div>
+      <div class="feature-title">Smart Insights</div>
+      <div class="feature-desc">SubTrack automatically flags subscriptions you haven't used, calculates your potential yearly savings, and tells you exactly what to cancel first.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-purple">📊</div>
+      <div class="feature-title">Visual Analytics</div>
+      <div class="feature-desc">See your spending broken down by category with beautiful charts and spending bars.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-green">🔔</div>
+      <div class="feature-title">Billing Reminders</div>
+      <div class="feature-desc">Never get surprised by a charge again. See every upcoming payment for the next 30 days.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-yellow">⬇️</div>
+      <div class="feature-title">Export to CSV</div>
+      <div class="feature-desc">Download your full subscription list as a CSV for budgeting, tax purposes, or sharing.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-red">🌙</div>
+      <div class="feature-title">Dark Mode</div>
+      <div class="feature-desc">Easy on the eyes, day or night. Your preference is saved automatically.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-tag">✦ How it works</div>
+  <h2 class="section-title">Up and running in 60 seconds</h2>
+  <p class="section-sub">No sign-up required. Your data stays in your browser.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Add your subscriptions</div>
+      <div class="step-desc">Enter the name, cost, billing date and category. Demo data is pre-loaded so you can explore instantly.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">Mark what you use</div>
+      <div class="step-desc">Toggle each subscription as "Used" or "Unused". SubTrack does the math on what you could save.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Cut the waste</div>
+      <div class="step-desc">Follow the Smart Insights to cancel unused services and watch your potential savings grow.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SAVINGS SECTION -->
+<section id="savings" style="background:var(--bg)">
+  <div class="savings">
+    <div>
+      <div class="section-tag">✦ Savings</div>
+      <h2 class="section-title">The average person wastes $84/month</h2>
+      <p class="section-sub">On subscriptions they forgot they had. SubTrack makes the waste visible — so you can stop it.</p>
+      <a href="index.html" class="btn-hero btn-hero-primary" style="margin-top:8px">Find my wasted money →</a>
+    </div>
+    <div class="savings-visual">
+      <div class="savings-title-row">
+        <div class="savings-vis-title">📊 Category Breakdown</div>
+        <div class="savings-total">$109.94/mo</div>
+      </div>
+      <div class="savings-bar-wrap">
+        <div class="sb-top"><span class="sb-name">Productivity</span><span class="sb-amt">$62.99/mo (57%)</span></div>
+        <div class="sb-bar"><div class="sb-fill" style="width:57%;background:#6c63ff"></div></div>
+      </div>
+      <div class="savings-bar-wrap">
+        <div class="sb-top"><span class="sb-name">Entertainment</span><span class="sb-amt">$39.97/mo (36%)</span></div>
+        <div class="sb-bar"><div class="sb-fill" style="width:36%;background:#ff6584"></div></div>
+      </div>
+      <div class="savings-bar-wrap">
+        <div class="sb-top"><span class="sb-name">Education</span><span class="sb-amt">$6.99/mo (6%)</span></div>
+        <div class="sb-bar"><div class="sb-fill" style="width:6%;background:#0284c7"></div></div>
+      </div>
+      <div class="savings-insight">
+        <span class="savings-insight-icon">💚</span>
+        Cancel 2 unused services and save <strong style="margin-left:4px">$252/year</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta">
+  <h2>Start saving money today.<br>It's completely free.</h2>
+  <p>No account. No credit card. Just open the app and start tracking.</p>
+  <a href="index.html" class="btn-hero btn-hero-primary">🚀 Open SubTrack Free</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a class="nav-logo" href="#" style="text-decoration:none">
+    <div class="nav-logo-icon" style="width:28px;height:28px;font-size:14px">💸</div>
+    <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--primary)">SubTrack</span>
+  </a>
+  <div>Track your subscriptions. Cut the waste. Save your money.</div>
+  <div>Built with ❤️ — No data leaves your browser</div>
+</footer>
+
+</body>
+</html>
