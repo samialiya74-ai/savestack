@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SubTrack — Track your subscriptions. Cut the waste. Save your money.</title>
+<title>SaveStack — Track your subscriptions. Cut the waste. Save your money.</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   :root {
@@ -236,7 +236,7 @@
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
     <div class="logo-icon">💸</div>
-    <span>SubTrack</span>
+    <span>SaveStack</span>
   </div>
   <nav>
     <div class="nav-item active" onclick="showPage('dashboard', this)">
@@ -486,7 +486,7 @@ function esc(s) {
 // ──────────────────────────────────────────
 // DATA LAYER
 // ──────────────────────────────────────────
-const STORAGE_KEY = 'subtrack_data';
+const STORAGE_KEY = 'SaveStack_data';
 let subs = [];
 
 function loadData() {
@@ -889,7 +889,7 @@ function exportCSV() {
 function toggleDark() {
   const dark = document.getElementById('darkToggle').checked;
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-  localStorage.setItem('subtrack_theme', dark ? 'dark' : 'light');
+  localStorage.setItem('SaveStack_theme', dark ? 'dark' : 'light');
   if (document.getElementById('page-analytics').classList.contains('active')) renderAnalytics();
 }
 
@@ -920,7 +920,7 @@ function refreshAll() {
 // ──────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   loadData();
-  const theme = localStorage.getItem('subtrack_theme');
+  const theme = localStorage.getItem('SaveStack_theme');
   if (theme === 'dark') { document.documentElement.setAttribute('data-theme','dark'); document.getElementById('darkToggle').checked = true; }
   refreshAll();
 });
