@@ -5,10 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SaveStack — Track your subscriptions. Cut the waste. Save your money.</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- UPGRADE: Replaced Sora/DM Sans with Instrument Serif + Cabinet Grotesk for a more premium editorial feel -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS — PREMIUM REFINED PALETTE
+   UPGRADE: Warmer, more nuanced palette with
+   richer depth layers and refined contrasts
+═══════════════════════════════════════════ */
 :root {
+  /* Core brand — cooler sapphire blue with warmth in shadows */
   --brand:        #2563eb;
   --brand-light:  #3b82f6;
   --brand-soft:   #60a5fa;
@@ -17,9 +24,11 @@
   --brand-faint2: rgba(37,99,235,0.12);
   --brand-glow:   0 0 0 3px rgba(37,99,235,0.18);
 
+  /* Accent — refined emerald for positive states */
   --accent:       #059669;
   --accent-faint: rgba(5,150,105,0.08);
 
+  /* Semantic colors */
   --green:        #10b981;
   --green-faint:  rgba(16,185,129,0.08);
   --green-text:   #047857;
@@ -31,6 +40,7 @@
   --blue:         #2563eb;
   --blue-faint:   rgba(37,99,235,0.08);
 
+  /* UPGRADE: Multi-layer surface system for real depth */
   --bg:        #f1f3f8;
   --bg2:       #e8ebf4;
   --surface:   #ffffff;
@@ -40,10 +50,12 @@
   --border2:   rgba(37,99,235,0.18);
   --divider:   rgba(0,0,0,0.05);
 
+  /* Text — warmer black, not pure */
   --text:      #0f1117;
   --text2:     #52587a;
   --text3:     #9298b8;
 
+  /* UPGRADE: Layered shadow system with brand color bleed */
   --shadow-xs:    0 1px 2px rgba(15,17,23,0.04);
   --shadow-sm:    0 1px 3px rgba(15,17,23,0.06), 0 4px 16px rgba(37,99,235,0.05);
   --shadow-md:    0 4px 20px rgba(15,17,23,0.08), 0 10px 40px rgba(37,99,235,0.07);
@@ -51,20 +63,25 @@
   --shadow-brand: 0 4px 18px rgba(37,99,235,0.28), 0 2px 8px rgba(37,99,235,0.18);
   --shadow-card:  0 2px 8px rgba(15,17,23,0.06), 0 12px 32px rgba(37,99,235,0.06);
 
+  /* Sidebar */
   --sidebar-bg:     #ffffff;
   --sidebar-border: rgba(37,99,235,0.07);
 
+  /* Radius — slightly tighter for a more professional look */
   --r-xs: 5px;
   --r-sm: 9px;
   --r:    13px;
   --r-lg: 16px;
   --r-xl: 22px;
 
+  /* UPGRADE: More precise easing curves */
   --ease:   cubic-bezier(0.22, 1, 0.36, 1);
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --snappy: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* UPGRADE: Dark mode is now a fully intentional deep navy theme,
+   not just an inversion. Every surface has its own feel. */
 [data-theme="dark"] {
   --brand:        #4f83f7;
   --brand-light:  #7aa6fa;
@@ -87,6 +104,7 @@
   --blue:         #4f83f7;
   --blue-faint:   rgba(79,131,247,0.09);
 
+  /* UPGRADE: Deep navy surfaces with subtle warm tint to avoid coldness */
   --bg:        #080c18;
   --bg2:       #0c1020;
   --surface:   #0f1425;
@@ -111,26 +129,24 @@
   --sidebar-border: rgba(79,131,247,0.07);
 }
 
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 body {
+  /* UPGRADE: Cabinet Grotesk is sharp and premium, not generic */
   font-family: 'Cabinet Grotesk', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
+  /* UPGRADE: Smoother theme transition */
   transition: background 0.4s var(--ease), color 0.4s var(--ease);
   min-height: 100vh;
   line-height: 1.55;
 }
 
-/* ═══════════════════════════════════════════
-   BACKGROUND UPGRADE
-   - Light mode: soft radial glow top-left + noise texture
-   - Dark mode: deep radial gradient + noise texture
-   Both are subtle — readability is not affected.
-═══════════════════════════════════════════ */
-
-/* Noise texture overlay — barely visible grain for premium feel */
+/* UPGRADE: More refined noise texture — barely visible */
 body::before {
   content: '';
   position: fixed;
@@ -140,32 +156,31 @@ body::before {
   z-index: 9998;
 }
 
-/* Radial ambient glow — top-left origin, brand-tinted */
+/* UPGRADE: Subtle ambient gradient in background */
 body::after {
   content: '';
   position: fixed;
-  top: -30%;
-  left: -10%;
-  width: 75%;
-  height: 75%;
-  /* Light mode: very faint blue glow */
-  background: radial-gradient(ellipse at top left, rgba(37,99,235,0.05) 0%, transparent 65%);
+  top: -40%;
+  left: -20%;
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(ellipse at center, rgba(37,99,235,0.04) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
-  transition: background 0.4s;
+  transition: opacity 0.4s;
 }
-
-/* Dark mode: richer glow, slightly more visible */
 [data-theme="dark"] body::after {
-  background: radial-gradient(ellipse at top left, rgba(79,131,247,0.09) 0%, transparent 65%);
+  background: radial-gradient(ellipse at center, rgba(79,131,247,0.06) 0%, transparent 70%);
 }
 
 /* ═══════════════════════════════════════════
-   END BACKGROUND UPGRADE
+   LAYOUT
 ═══════════════════════════════════════════ */
-
 .app { display: flex; min-height: 100vh; position: relative; z-index: 1; }
 
+/* ═══════════════════════════════════════════
+   SIDEBAR — UPGRADE: Glass-effect on dark, clean on light
+═══════════════════════════════════════════ */
 .sidebar {
   width: 244px;
   background: var(--sidebar-bg);
@@ -177,9 +192,11 @@ body::after {
   height: 100vh;
   z-index: 100;
   transition: transform 0.32s var(--ease);
+  /* UPGRADE: Refined shadow with brand tint */
   box-shadow: 2px 0 24px rgba(15,17,23,0.05), 1px 0 0 var(--border);
 }
 
+/* UPGRADE: Subtle top gradient accent on sidebar */
 .sidebar::before {
   content: '';
   position: absolute;
@@ -189,13 +206,6 @@ body::after {
   pointer-events: none;
 }
 
-/* ═══════════════════════════════════════════
-   LOGO REPLACEMENT
-   Replaced emoji + text logo with the SVG
-   stack-layers logo from the landing page.
-   Same structure: icon div + brand name span.
-   Sizing kept consistent with navbar height.
-═══════════════════════════════════════════ */
 .sidebar-logo {
   padding: 22px 18px 18px;
   display: flex;
@@ -208,25 +218,17 @@ body::after {
 
 .sidebar-logo .logo-icon {
   width: 32px; height: 32px;
+  /* UPGRADE: Richer gradient on logo icon */
   background: linear-gradient(145deg, var(--brand-dark), var(--brand-light));
   border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  font-size: 15px;
   box-shadow: var(--shadow-brand);
+  flex-shrink: 0;
+  /* UPGRADE: Subtle pulse on load */
   animation: logoPulse 3s ease-in-out infinite;
-}
-
-/* SVG icon sized to fit the 32×32 icon container */
-.sidebar-logo .logo-icon svg {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: white;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
 @keyframes logoPulse {
@@ -235,15 +237,13 @@ body::after {
 }
 
 .sidebar-logo span {
+  /* UPGRADE: Instrument Serif for brand name — more character */
   font-family: 'Instrument Serif', serif;
   font-size: 18px;
   font-weight: 400;
   color: var(--text);
   letter-spacing: -0.01em;
 }
-/* ═══════════════════════════════════════════
-   END LOGO REPLACEMENT
-═══════════════════════════════════════════ */
 
 .nav-section-label {
   padding: 12px 18px 5px;
@@ -260,6 +260,7 @@ body::after {
   gap: 9px;
   padding: 8px 14px 8px 18px;
   cursor: pointer;
+  /* UPGRADE: Precise transition timing per property */
   transition: background 0.18s var(--snappy), color 0.18s var(--snappy), transform 0.15s var(--spring);
   color: var(--text2);
   font-size: 13.5px;
@@ -283,6 +284,7 @@ body::after {
   border-left-color: var(--brand);
 }
 
+/* UPGRADE: Active nav item gets a right-edge shimmer */
 .nav-item.active::after {
   content: '';
   position: absolute;
@@ -325,6 +327,7 @@ body::after {
   font-weight: 500;
 }
 
+/* UPGRADE: Improved toggle switch feel */
 .toggle-switch { position: relative; width: 36px; height: 19px; }
 .toggle-switch input { opacity: 0; width: 0; height: 0; }
 .toggle-slider {
@@ -349,6 +352,9 @@ body::after {
 input:checked + .toggle-slider { background: var(--brand); border-color: var(--brand); }
 input:checked + .toggle-slider::before { transform: translate(17px, -50%); background: white; }
 
+/* ═══════════════════════════════════════════
+   MAIN CONTENT
+═══════════════════════════════════════════ */
 .main {
   margin-left: 244px;
   flex: 1;
@@ -356,6 +362,7 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   min-height: 100vh;
 }
 
+/* UPGRADE: Smoother page transitions */
 .page { display: none; }
 .page.active {
   display: block;
@@ -367,6 +374,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ═══════════════════════════════════════════
+   PAGE HEADER
+═══════════════════════════════════════════ */
 .page-header {
   display: flex;
   align-items: flex-start;
@@ -376,6 +386,7 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   gap: 14px;
 }
 
+/* UPGRADE: Instrument Serif for page title — editorial feel */
 .page-title {
   font-family: 'Instrument Serif', serif;
   font-size: 26px;
@@ -393,6 +404,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   letter-spacing: 0.01em;
 }
 
+/* ═══════════════════════════════════════════
+   CARDS — UPGRADE: Real depth, not flat
+═══════════════════════════════════════════ */
 .card {
   background: var(--surface);
   border-radius: var(--r-lg);
@@ -406,6 +420,7 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   border-color: var(--border2);
 }
 
+/* STAT CARDS — UPGRADE: More polished with internal glow */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -422,9 +437,11 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   position: relative;
   overflow: hidden;
   transition: transform 0.25s var(--spring), box-shadow 0.25s var(--ease), border-color 0.25s;
+  /* UPGRADE: Staggered entry animation */
   animation: cardEntry 0.5s var(--ease) both;
 }
 
+/* Stagger delays applied in JS */
 .stat-card:nth-child(1) { animation-delay: 0.05s; }
 .stat-card:nth-child(2) { animation-delay: 0.10s; }
 .stat-card:nth-child(3) { animation-delay: 0.15s; }
@@ -441,6 +458,7 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   border-color: var(--border2);
 }
 
+/* UPGRADE: Gradient top border that's always visible */
 .stat-card::after {
   content: '';
   position: absolute;
@@ -456,6 +474,7 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 .stat-card.green::after  { background: linear-gradient(90deg, var(--green), #6ee7b7); }
 .stat-card.yellow::after { background: linear-gradient(90deg, var(--amber), #fde68a); }
 
+/* UPGRADE: Ambient inner glow behind stat icon */
 .stat-card::before {
   content: '';
   position: absolute;
@@ -478,6 +497,7 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   align-items: center;
   justify-content: center;
   font-size: 15px;
+  /* UPGRADE: Icon matches card accent color */
   background: var(--brand-faint2);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-xs);
@@ -496,6 +516,7 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   position: relative;
 }
 
+/* UPGRADE: JetBrains Mono for numbers — techy and distinctive */
 .stat-value {
   font-family: 'JetBrains Mono', 'Cabinet Grotesk', monospace;
   font-size: 30px;
@@ -514,6 +535,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   position: relative;
 }
 
+/* ═══════════════════════════════════════════
+   WARNING BANNER — UPGRADE: More refined
+═══════════════════════════════════════════ */
 .warning-banner {
   background: linear-gradient(135deg, var(--amber-faint), rgba(217,119,6,0.04));
   border: 1px solid rgba(217,119,6,0.20);
@@ -526,6 +550,7 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   color: var(--amber);
   font-size: 13.5px;
   font-weight: 500;
+  /* UPGRADE: Subtle entry */
   animation: bannerEntry 0.4s var(--ease) 0.3s both;
 }
 @keyframes bannerEntry {
@@ -535,6 +560,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 .warning-banner strong { font-weight: 700; color: var(--text); }
 .warning-icon { font-size: 17px; flex-shrink: 0; }
 
+/* ═══════════════════════════════════════════
+   GRID LAYOUT
+═══════════════════════════════════════════ */
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -543,6 +571,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 }
 @media(max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
 
+/* ═══════════════════════════════════════════
+   UPCOMING LIST — UPGRADE: Cleaner rows
+═══════════════════════════════════════════ */
 .upcoming-list { display: flex; flex-direction: column; gap: 6px; }
 
 .upcoming-item {
@@ -554,6 +585,7 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   border-radius: var(--r-sm);
   border: 1px solid var(--border);
   transition: all 0.2s var(--snappy);
+  /* UPGRADE: Entry stagger via inline style in JS */
 }
 .upcoming-item:hover {
   background: var(--brand-faint);
@@ -581,17 +613,23 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 
 .section-title {
   font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 13.5px;
   font-weight: 700;
   margin-bottom: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--text);
+  letter-spacing: 0em;
   text-transform: uppercase;
   font-size: 11px;
   letter-spacing: 0.08em;
   color: var(--text3);
 }
 
+/* ═══════════════════════════════════════════
+   SUBSCRIPTION CARDS — UPGRADE: Richer feel
+═══════════════════════════════════════════ */
 .sub-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
@@ -607,9 +645,11 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   transition: transform 0.25s var(--spring), box-shadow 0.25s var(--ease), border-color 0.25s;
   position: relative;
   overflow: hidden;
+  /* UPGRADE: Staggered entry */
   animation: cardEntry 0.45s var(--ease) both;
 }
 
+/* UPGRADE: Gradient overlay on hover */
 .sub-card::before {
   content: '';
   position: absolute;
@@ -690,6 +730,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   position: relative;
 }
 
+/* ═══════════════════════════════════════════
+   BUTTONS — UPGRADE: Better hover states + scale
+═══════════════════════════════════════════ */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -709,6 +752,7 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   overflow: hidden;
 }
 
+/* UPGRADE: Ripple shimmer on button hover */
 .btn::after {
   content: '';
   position: absolute;
@@ -761,6 +805,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: var(--r-xs); }
 .btn-icon { padding: 8px; border-radius: 8px; }
 
+/* ═══════════════════════════════════════════
+   INSIGHT TAGS
+═══════════════════════════════════════════ */
 .insight-tag {
   display: inline-flex;
   align-items: center;
@@ -776,6 +823,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 .insight-warn { background: var(--amber-faint); color: var(--amber); border: 1px solid rgba(217,119,6,0.18); }
 .insight-info { background: var(--blue-faint);  color: var(--blue);  border: 1px solid rgba(37,99,235,0.18); }
 
+/* ═══════════════════════════════════════════
+   MODAL — UPGRADE: Polished glass morphism edge
+═══════════════════════════════════════════ */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -799,12 +849,14 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   padding: 28px 30px;
   max-width: 480px;
   width: 100%;
+  /* UPGRADE: More dimensional shadow */
   box-shadow: 0 32px 80px rgba(0,0,0,0.22), 0 0 0 1px var(--border), 0 1px 0 rgba(255,255,255,0.08) inset;
   transform: scale(0.93) translateY(10px);
   transition: transform 0.30s var(--spring);
   position: relative;
 }
 
+/* UPGRADE: Gradient top accent on modal */
 .modal::before {
   content: '';
   position: absolute;
@@ -847,6 +899,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   transform: scale(1.1) rotate(5deg);
 }
 
+/* ═══════════════════════════════════════════
+   FORMS — UPGRADE: More polished inputs
+═══════════════════════════════════════════ */
 .form-group { margin-bottom: 13px; }
 
 .form-label {
@@ -881,6 +936,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 .form-input::placeholder { color: var(--text3); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
+/* ═══════════════════════════════════════════
+   TOOLBAR / SEARCH
+═══════════════════════════════════════════ */
 .toolbar {
   display: flex;
   gap: 10px;
@@ -929,14 +987,13 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 }
 .filter-select:focus { border-color: var(--brand); }
 
+/* ═══════════════════════════════════════════
+   CHARTS
+═══════════════════════════════════════════ */
 .chart-container { position: relative; height: 220px; }
 
 /* ═══════════════════════════════════════════
-   SMART INSIGHTS PAGE STYLES — REMOVED
-   The .insight-card styles below are kept
-   because they are ALSO used on the
-   Subscriptions page (unused tag cards).
-   Only the Insights PAGE itself is removed.
+   INSIGHTS PAGE — UPGRADE: Better card design
 ═══════════════════════════════════════════ */
 .insight-card {
   background: var(--surface);
@@ -982,6 +1039,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 .insight-desc strong { color: var(--text); font-weight: 700; }
 .insight-action { margin-top: 11px; }
 
+/* ═══════════════════════════════════════════
+   REMINDERS — UPGRADE: Timeline feel
+═══════════════════════════════════════════ */
 .reminder-item {
   display: flex;
   align-items: center;
@@ -1017,6 +1077,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 .reminder-text { font-size: 13.5px; font-weight: 600; color: var(--text); }
 .reminder-date { font-size: 11px; color: var(--text3); margin-top: 2px; }
 
+/* ═══════════════════════════════════════════
+   CATEGORY COLORS — More refined
+═══════════════════════════════════════════ */
 .cat-entertainment { background: rgba(124,99,255,0.09); color: #7c63ff; }
 .cat-education     { background: rgba(14,165,233,0.09); color: #0ea5e9; }
 .cat-productivity  { background: rgba(16,185,129,0.09); color: #10b981; }
@@ -1030,6 +1093,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 [data-theme="dark"] .cat-health        { background: rgba(239,68,68,0.14);  color: #f87171; }
 [data-theme="dark"] .cat-news          { background: rgba(217,119,6,0.14);  color: #fbbf24; }
 
+/* ═══════════════════════════════════════════
+   EMPTY STATES
+═══════════════════════════════════════════ */
 .empty-state {
   text-align: center;
   padding: 56px 20px;
@@ -1039,6 +1105,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 .empty-state h3 { font-family: 'Instrument Serif', serif; font-size: 18px; font-weight: 400; margin-bottom: 7px; color: var(--text2); }
 .empty-state p { font-size: 13.5px; margin-bottom: 20px; color: var(--text3); }
 
+/* ═══════════════════════════════════════════
+   HAMBURGER / MOBILE
+═══════════════════════════════════════════ */
 .hamburger {
   display: none;
   position: fixed;
@@ -1083,6 +1152,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   .stats-grid { grid-template-columns: 1fr; }
 }
 
+/* ═══════════════════════════════════════════
+   TOAST — UPGRADE: More polished
+═══════════════════════════════════════════ */
 .toast {
   position: fixed;
   bottom: 24px; right: 24px;
@@ -1107,6 +1179,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 .toast.success { background: var(--green); color: white; border-color: transparent; }
 .toast.error   { background: var(--red);   color: white; border-color: transparent; }
 
+/* ═══════════════════════════════════════════
+   SPENDING BAR — UPGRADE: Smoother animation
+═══════════════════════════════════════════ */
 .spend-bar-wrap { margin: 5px 0 11px; }
 .spend-bar {
   height: 5px;
@@ -1117,8 +1192,10 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 .spend-bar-fill {
   height: 100%;
   border-radius: 100px;
+  /* UPGRADE: Longer, smoother bar fill transition */
   transition: width 1s var(--ease);
   position: relative;
+  /* UPGRADE: Shimmer effect on bars */
 }
 .spend-bar-fill::after {
   content: '';
@@ -1134,6 +1211,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   100% { left: 120%; }
 }
 
+/* ═══════════════════════════════════════════
+   NO ITEMS
+═══════════════════════════════════════════ */
 .no-items {
   text-align: center;
   padding: 28px;
@@ -1141,98 +1221,40 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   font-size: 13px;
 }
 
+/* ═══════════════════════════════════════════
+   SCROLLBAR — UPGRADE: Thinner, brand tinted
+═══════════════════════════════════════════ */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 100px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--brand-light); }
 
+/* ═══════════════════════════════════════════
+   UPGRADE: Number counter animation helper class
+   Applied to stat values while counting
+═══════════════════════════════════════════ */
 .counting {
   color: var(--brand) !important;
   transition: color 0.3s;
 }
 
+/* ═══════════════════════════════════════════
+   UPGRADE: Loading skeleton shimmer
+   (for future use / progressive enhancement)
+═══════════════════════════════════════════ */
+@keyframes skeleton {
+  0%   { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+/* ═══════════════════════════════════════════
+   UPGRADE: Divider separator (used in sections)
+═══════════════════════════════════════════ */
 .section-divider {
   height: 1px;
   background: var(--divider);
   margin: 16px 0;
 }
-
-/* Custom confirm dialog */
-.confirm-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(8,12,24,0.60);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  padding: 20px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.24s var(--ease);
-}
-.confirm-overlay.open { opacity: 1; pointer-events: all; }
-
-.confirm-modal {
-  background: var(--surface);
-  border-radius: var(--r-xl);
-  padding: 28px 30px;
-  max-width: 380px;
-  width: 100%;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.22), 0 0 0 1px var(--border);
-  transform: scale(0.93) translateY(10px);
-  transition: transform 0.30s var(--spring);
-  position: relative;
-  overflow: hidden;
-}
-.confirm-overlay.open .confirm-modal { transform: scale(1) translateY(0); }
-
-.confirm-modal::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--red), #fb7185);
-}
-
-.confirm-icon {
-  width: 48px; height: 48px;
-  background: var(--red-faint);
-  border: 1px solid rgba(239,68,68,0.16);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  margin-bottom: 16px;
-}
-
-.confirm-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: 19px;
-  font-weight: 400;
-  color: var(--text);
-  margin-bottom: 8px;
-  letter-spacing: -0.01em;
-}
-
-.confirm-message {
-  font-size: 13.5px;
-  color: var(--text2);
-  line-height: 1.6;
-  margin-bottom: 24px;
-}
-
-.confirm-message strong { color: var(--text); font-weight: 700; }
-
-.confirm-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-}
-
 </style>
 </head>
 <body>
@@ -1242,20 +1264,10 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 <div class="app">
 <!-- ═══ SIDEBAR ═══ -->
 <aside class="sidebar" id="sidebar">
-
-  <!-- LOGO: Replaced emoji logo with SVG stack-layers icon matching the landing page -->
   <div class="sidebar-logo">
-    <div class="logo-icon">
-      <!-- Same SVG path used in landing page nav-logo-icon -->
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-        <path d="M2 17l10 5 10-5"/>
-        <path d="M2 12l10 5 10-5"/>
-      </svg>
-    </div>
+    <div class="logo-icon">💸</div>
     <span>SaveStack</span>
   </div>
-  <!-- END LOGO REPLACEMENT -->
 
   <div class="nav-section-label">Main</div>
   <nav>
@@ -1265,7 +1277,9 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
     <div class="nav-item" onclick="showPage('subscriptions', this)">
       <span class="nav-icon">📋</span> My Subscriptions
     </div>
-    <!-- SMART INSIGHTS NAV ITEM REMOVED -->
+    <div class="nav-item" onclick="showPage('insights', this)">
+      <span class="nav-icon">💡</span> Smart Insights
+    </div>
     <div class="nav-item" onclick="showPage('reminders', this)">
       <span class="nav-icon">🔔</span> Reminders
     </div>
@@ -1387,7 +1401,16 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   </div>
 </div>
 
-<!-- SMART INSIGHTS PAGE REMOVED — HTML block deleted entirely -->
+<!-- INSIGHTS -->
+<div class="page" id="page-insights">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Smart Insights 💡</div>
+      <div class="page-subtitle">Personalized tips to help you save money</div>
+    </div>
+  </div>
+  <div id="insightsList"></div>
+</div>
 
 <!-- REMINDERS -->
 <div class="page" id="page-reminders">
@@ -1431,19 +1454,6 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
 </div>
 
 <!-- ADD/EDIT MODAL -->
-
-<!-- CONFIRM DIALOG -->
-<div class="confirm-overlay" id="confirmOverlay" onclick="if(event.target===this)closeConfirm()">
-  <div class="confirm-modal">
-    <div class="confirm-icon">🗑️</div>
-    <div class="confirm-title" id="confirmTitle">Are you sure?</div>
-    <div class="confirm-message" id="confirmMessage"></div>
-    <div class="confirm-actions">
-      <button class="btn btn-outline" onclick="closeConfirm()">Cancel</button>
-      <button class="btn btn-danger" id="confirmOkBtn" style="background:var(--red);color:white;border-color:transparent">Delete</button>
-    </div>
-  </div>
-</div>
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div class="modal-title">
@@ -1499,6 +1509,7 @@ input:checked + .toggle-slider::before { transform: translate(17px, -50%); backg
   </div>
 </div>
 
+<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1508,17 +1519,26 @@ function esc(s) {
   return d.innerHTML;
 }
 
-// Smooth number counter — reusable utility
+// ──────────────────────────────────────────
+// UPGRADE: animateValue — smooth number counter
+// Reusable for any numeric stat display
+// ──────────────────────────────────────────
 function animateValue(el, from, to, duration = 900, prefix = '', suffix = '', decimals = 0) {
   if (!el) return;
   const startTime = performance.now();
+
+  // UPGRADE: Add .counting class for blue tint while animating
   el.classList.add('counting');
+
   function update(currentTime) {
-    const elapsed  = currentTime - startTime;
+    const elapsed = currentTime - startTime;
     const progress = Math.min(elapsed / duration, 1);
-    const eased    = 1 - Math.pow(1 - progress, 3);
-    const current  = from + (to - from) * eased;
+    // UPGRADE: Ease-out cubic for natural deceleration
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = from + (to - from) * eased;
+
     el.textContent = prefix + current.toFixed(decimals) + suffix;
+
     if (progress < 1) {
       requestAnimationFrame(update);
     } else {
@@ -1526,12 +1546,17 @@ function animateValue(el, from, to, duration = 900, prefix = '', suffix = '', de
       el.classList.remove('counting');
     }
   }
+
   requestAnimationFrame(update);
 }
 
+// ──────────────────────────────────────────
 // DATA LAYER
+// ──────────────────────────────────────────
 const STORAGE_KEY = 'SaveStack_data';
 let subs = [];
+
+// Track previous stat values for counter animation start points
 let prevStats = { monthly: 0, count: 0, dueWeek: 0, savings: 0 };
 
 function loadData() {
@@ -1544,21 +1569,23 @@ function seedDemoData() {
   const today = new Date();
   const d = (offset) => { const dd = new Date(today); dd.setDate(dd.getDate() + offset); return dd.toISOString().split('T')[0]; };
   subs = [
-    { id: uid(), name: 'Netflix',          icon: '🎬', cost: 15.99, cycle: 'monthly', category: 'entertainment', date: d(5),  used: true  },
-    { id: uid(), name: 'Spotify',          icon: '🎵', cost: 9.99,  cycle: 'monthly', category: 'entertainment', date: d(12), used: true  },
-    { id: uid(), name: 'YouTube Premium',  icon: '▶️', cost: 13.99, cycle: 'monthly', category: 'entertainment', date: d(20), used: false },
-    { id: uid(), name: 'Notion',           icon: '📝', cost: 8.00,  cycle: 'monthly', category: 'productivity',  date: d(3),  used: true  },
-    { id: uid(), name: 'Duolingo Plus',    icon: '🦜', cost: 6.99,  cycle: 'monthly', category: 'education',     date: d(25), used: false },
-    { id: uid(), name: 'Adobe CC',         icon: '🎨', cost: 54.99, cycle: 'monthly', category: 'productivity',  date: d(18), used: true  },
+    { id: uid(), name: 'Netflix', icon: '🎬', cost: 15.99, cycle: 'monthly', category: 'entertainment', date: d(5), used: true },
+    { id: uid(), name: 'Spotify', icon: '🎵', cost: 9.99, cycle: 'monthly', category: 'entertainment', date: d(12), used: true },
+    { id: uid(), name: 'YouTube Premium', icon: '▶️', cost: 13.99, cycle: 'monthly', category: 'entertainment', date: d(20), used: false },
+    { id: uid(), name: 'Notion', icon: '📝', cost: 8.00, cycle: 'monthly', category: 'productivity', date: d(3), used: true },
+    { id: uid(), name: 'Duolingo Plus', icon: '🦜', cost: 6.99, cycle: 'monthly', category: 'education', date: d(25), used: false },
+    { id: uid(), name: 'Adobe CC', icon: '🎨', cost: 54.99, cycle: 'monthly', category: 'productivity', date: d(18), used: true },
   ];
   saveData();
 }
 
 function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2); }
 
+// ──────────────────────────────────────────
+// ICON MAP
+// ──────────────────────────────────────────
 const iconMap = {
-  netflix:'🎬',spotify:'🎵',youtube:'▶️',apple:'🍎',amazon:'📦',disney:'✨',hulu:'📺',hbo:'👑',notion:'📝',adobe:'🎨',figma:'🖼️',github:'🐙',dropbox:'📁',google:'🔍',microsoft:'🪟',duolingo:'🦜',audible:'🎧',kindle:'📚',twitch:'🎮',discord:'💬',slack:'💼',zoom:'📹',canva:'🎭',grammarly:'✍️',headspace:'🧘',calm:'🌊',peloton:'🚴',
-  default_entertainment:'🎬',default_education:'📚',default_productivity:'💼',default_health:'❤️',default_news:'📰',default_other:'⭐'
+  netflix: '🎬', spotify: '🎵', youtube: '▶️', apple: '🍎', amazon: '📦', disney: '✨', hulu: '📺', hbo: '👑', notion: '📝', adobe: '🎨', figma: '🖼️', github: '🐙', dropbox: '📁', google: '🔍', microsoft: '🪟', duolingo: '🦜', audible: '🎧', kindle: '📚', twitch: '🎮', discord: '💬', slack: '💼', zoom: '📹', canva: '🎭', grammarly: '✍️', headspace: '🧘', calm: '🌊', peloton: '🚴', default_entertainment: '🎬', default_education: '📚', default_productivity: '💼', default_health: '❤️', default_news: '📰', default_other: '⭐'
 };
 function getIcon(name, cat, manualIcon) {
   if (manualIcon && manualIcon.trim()) return manualIcon.trim();
@@ -1567,16 +1594,19 @@ function getIcon(name, cat, manualIcon) {
   return iconMap['default_' + cat] || '⭐';
 }
 
-const catColors = { entertainment:'#7c63ff', education:'#0ea5e9', productivity:'#10b981', health:'#ef4444', news:'#d97706', other:'#6b7280' };
-const catBg     = { entertainment:'rgba(124,99,255,0.09)', education:'rgba(14,165,233,0.09)', productivity:'rgba(16,185,129,0.09)', health:'rgba(239,68,68,0.09)', news:'rgba(217,119,6,0.09)', other:'rgba(107,114,128,0.09)' };
+// ──────────────────────────────────────────
+// CATEGORY COLORS
+// ──────────────────────────────────────────
+const catColors = { entertainment: '#7c63ff', education: '#0ea5e9', productivity: '#10b981', health: '#ef4444', news: '#d97706', other: '#6b7280' };
+const catBg = { entertainment: 'rgba(124,99,255,0.09)', education: 'rgba(14,165,233,0.09)', productivity: 'rgba(16,185,129,0.09)', health: 'rgba(239,68,68,0.09)', news: 'rgba(217,119,6,0.09)', other: 'rgba(107,114,128,0.09)' };
 
+// ──────────────────────────────────────────
 // NAVIGATION
-// Note: 'insights' page removed — showPage('insights') will silently no-op if called
+// ──────────────────────────────────────────
 function showPage(id, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const target = document.getElementById('page-' + id);
-  if (target) target.classList.add('active');
+  document.getElementById('page-' + id).classList.add('active');
   if (el) el.classList.add('active');
   refreshAll();
   if (window.innerWidth <= 768) toggleSidebar(false);
@@ -1589,10 +1619,16 @@ function toggleSidebar(force) {
   ov.classList.toggle('open', open);
 }
 
+// ──────────────────────────────────────────
+// CALCULATIONS
+// ──────────────────────────────────────────
 function monthlyTotal() { return subs.reduce((s, x) => s + (x.cycle === 'yearly' ? x.cost / 12 : x.cost), 0); }
 function yearlyTotal()  { return subs.reduce((s, x) => s + (x.cycle === 'yearly' ? x.cost : x.cost * 12), 0); }
 function daysUntil(dateStr) { const [y,m,d] = dateStr.split('-').map(Number); const due = new Date(y, m-1, d); const now = new Date(); now.setHours(0,0,0,0); return Math.round((due - now) / 86400000); }
 
+// ──────────────────────────────────────────
+// DASHBOARD — UPGRADE: Counter animations on all stat values
+// ──────────────────────────────────────────
 function renderDashboard() {
   const monthly = monthlyTotal();
   const yearly  = yearlyTotal();
@@ -1601,21 +1637,28 @@ function renderDashboard() {
   const unused  = subs.filter(s => !s.used);
   const savings = unused.reduce((t, s) => t + (s.cycle === 'yearly' ? s.cost : s.cost * 12), 0);
 
-  animateValue(document.getElementById('statMonthly'), prevStats.monthly, monthly, 900, '$', '', 2);
-  animateValue(document.getElementById('statCount'),   prevStats.count,   count,   700, '',  '', 0);
-  animateValue(document.getElementById('statDueWeek'), prevStats.dueWeek, dueWeek, 750, '',  '', 0);
-  animateValue(document.getElementById('statSavings'), prevStats.savings, savings, 850, '$', '', 0);
+  // UPGRADE: Animate from previous values to new values
+  animateValue(document.getElementById('statMonthly'),  prevStats.monthly,  monthly,  900, '$', '', 2);
+  animateValue(document.getElementById('statCount'),    prevStats.count,    count,    700, '',  '', 0);
+  animateValue(document.getElementById('statDueWeek'),  prevStats.dueWeek,  dueWeek,  750, '',  '', 0);
+  animateValue(document.getElementById('statSavings'),  prevStats.savings,  savings,  850, '$', '', 0);
 
+  // Update yearly sub-label directly (no counter needed)
   document.getElementById('statYearly').textContent = '$' + yearly.toFixed(0) + '/year';
+
+  // Store current as previous for next update
   prevStats = { monthly, count, dueWeek, savings };
+
   document.getElementById('warningText').innerHTML = `You are spending <strong>$${monthly.toFixed(2)}</strong> per month ($${yearly.toFixed(0)}/year) on ${count} subscriptions.`;
 
+  // Upcoming payments
   const upcoming = [...subs].filter(s => daysUntil(s.date) >= 0).sort((a, b) => daysUntil(a.date) - daysUntil(b.date)).slice(0, 5);
   const ul = document.getElementById('upcomingList');
   if (!upcoming.length) { ul.innerHTML = '<div class="no-items">No upcoming payments</div>'; }
   else ul.innerHTML = upcoming.map((s, i) => {
     const d = daysUntil(s.date);
     const badge = d <= 3 ? `<span class="upcoming-badge badge-soon">In ${d}d</span>` : `<span class="upcoming-badge badge-upcoming">In ${d}d</span>`;
+    // UPGRADE: Staggered entry per item
     return `<div class="upcoming-item" style="animation:cardEntry 0.4s var(--ease) ${i * 0.06}s both">
       <div><div class="upcoming-name">${getIcon(s.name,s.category,s.icon)} ${esc(s.name)}</div><div class="upcoming-date">${esc(s.date)}</div></div>
       <div style="display:flex;align-items:center;gap:10px">
@@ -1624,6 +1667,7 @@ function renderDashboard() {
     </div>`;
   }).join('');
 
+  // Category breakdown
   const cats = {};
   subs.forEach(s => { cats[s.category] = (cats[s.category] || 0) + (s.cycle === 'yearly' ? s.cost / 12 : s.cost); });
   const cb = document.getElementById('categoryBreakdown');
@@ -1641,13 +1685,16 @@ function renderDashboard() {
   }).join('');
 }
 
+// ──────────────────────────────────────────
+// SUBSCRIPTIONS LIST
+// ──────────────────────────────────────────
 function renderSubs() {
-  const q     = (document.getElementById('searchInput')?.value || '').toLowerCase();
-  const cat   = document.getElementById('filterCategory')?.value || '';
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase();
+  const cat = document.getElementById('filterCategory')?.value || '';
   const cycle = document.getElementById('filterCycle')?.value || '';
   let filtered = subs.filter(s =>
-    (!q     || s.name.toLowerCase().includes(q)) &&
-    (!cat   || s.category === cat) &&
+    (!q || s.name.toLowerCase().includes(q)) &&
+    (!cat || s.category === cat) &&
     (!cycle || s.cycle === cycle)
   );
   const grid = document.getElementById('subGrid');
@@ -1661,11 +1708,12 @@ function renderSubs() {
     return;
   }
   grid.innerHTML = filtered.map((s, i) => {
-    const icon      = getIcon(s.name, s.category, s.icon);
-    const days      = daysUntil(s.date);
+    const icon  = getIcon(s.name, s.category, s.icon);
+    const days  = daysUntil(s.date);
     const unusedTag = !s.used ? `<div class="insight-tag insight-warn">⚠️ Possibly unused</div>` : '';
     const soonTag   = days >= 0 && days <= 7 ? `<div class="insight-tag insight-info">🔔 Due in ${days}d</div>` : '';
     const monthly   = s.cycle === 'yearly' ? (s.cost/12).toFixed(2) : s.cost.toFixed(2);
+    // UPGRADE: Staggered card entries
     return `<div class="sub-card" style="animation-delay:${i * 0.05}s">
       ${unusedTag}${soonTag}
       <div class="sub-card-header">
@@ -1707,19 +1755,78 @@ function toggleUsed(id) {
   if (s) { s.used = !s.used; saveData(); renderSubs(); refreshAll(); showToast(s.used ? '✅ Marked as used' : '❌ Marked as unused'); }
 }
 
-function showConfirm(title, message, onConfirm) {
-  document.getElementById('confirmTitle').innerHTML = title;
-  document.getElementById('confirmMessage').textContent = message;
-  document.getElementById('confirmOverlay').classList.add('open');
-  document.getElementById('confirmOkBtn').onclick = () => {
-    closeConfirm();
-    onConfirm();
-  };
-}
-function closeConfirm() {
-  document.getElementById('confirmOverlay').classList.remove('open');
+// ──────────────────────────────────────────
+// INSIGHTS
+// ──────────────────────────────────────────
+function renderInsights() {
+  const el = document.getElementById('insightsList');
+  let cards = [];
+  const unused = subs.filter(s => !s.used);
+  if (unused.length) {
+    unused.forEach(s => {
+      const yearlySave = s.cycle === 'yearly' ? s.cost : s.cost * 12;
+      cards.push(`<div class="insight-card">
+        <div class="insight-emoji">😴</div>
+        <div>
+          <div class="insight-title">You might not be using ${esc(s.name)}</div>
+          <div class="insight-desc">This subscription is marked as unused. Canceling it could save you <strong>$${yearlySave.toFixed(2)}/year</strong> (${s.cycle === 'yearly' ? '$' + (s.cost/12).toFixed(2) + '/month' : '$' + s.cost.toFixed(2) + '/month'}).</div>
+          <div class="insight-action"><button class="btn btn-danger btn-sm" onclick="deleteSub('${esc(s.id)}')">🗑️ Cancel Subscription</button></div>
+        </div>
+      </div>`);
+    });
+  }
+  const monthly = monthlyTotal();
+  if (monthly > 50) {
+    cards.push(`<div class="insight-card">
+      <div class="insight-emoji">💸</div>
+      <div>
+        <div class="insight-title">High monthly spend detected</div>
+        <div class="insight-desc">You're spending <strong>$${monthly.toFixed(2)}/month</strong> ($${(monthly*12).toFixed(0)}/year) on subscriptions. That's equivalent to <strong>${Math.round(monthly/9.99)} Spotify plans</strong>!</div>
+      </div>
+    </div>`);
+  }
+  const soon = subs.filter(s => { const d = daysUntil(s.date); return d >= 0 && d <= 3; });
+  if (soon.length) {
+    cards.push(`<div class="insight-card">
+      <div class="insight-emoji">🔔</div>
+      <div>
+        <div class="insight-title">${soon.length} payment${soon.length > 1 ? 's' : ''} due in 3 days</div>
+        <div class="insight-desc"><strong>${soon.map(s=>esc(s.name)).join(', ')}</strong> will be charged within the next 3 days. Make sure your payment method is up to date.</div>
+      </div>
+    </div>`);
+  }
+  const cats = {};
+  subs.forEach(s => { cats[s.category] = (cats[s.category]||0) + (s.cycle==='yearly'?s.cost/12:s.cost); });
+  const topCat = Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];
+  if (topCat) {
+    cards.push(`<div class="insight-card">
+      <div class="insight-emoji">🏆</div>
+      <div>
+        <div class="insight-title">Biggest spending category: ${esc(topCat[0])}</div>
+        <div class="insight-desc">You spend <strong>$${topCat[1].toFixed(2)}/month</strong> on ${esc(topCat[0])} subscriptions. ${topCat[1] > 30 ? 'Consider reviewing what you actually use in this category.' : 'Keep an eye on this as you add more services.'}</div>
+      </div>
+    </div>`);
+  }
+  if (subs.length > 4) {
+    cards.push(`<div class="insight-card">
+      <div class="insight-emoji">📅</div>
+      <div>
+        <div class="insight-title">Consolidation tip</div>
+        <div class="insight-desc">You have ${subs.length} subscriptions. Some services (like Apple One or Google One) bundle multiple services together — you might be able to reduce the number of subscriptions with a bundle plan.</div>
+      </div>
+    </div>`);
+  }
+  if (!cards.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">🎉</div><h3>You're doing great!</h3><p>No issues found with your subscriptions right now. Keep tracking!</p></div>`;
+  } else {
+    // UPGRADE: Stagger insight card entries
+    el.innerHTML = cards.map((c, i) => c.replace('class="insight-card"', `class="insight-card" style="animation-delay:${i * 0.08}s"`)).join('');
+  }
 }
 
+// ──────────────────────────────────────────
+// REMINDERS
+// ──────────────────────────────────────────
 function renderReminders() {
   const upcoming = subs.filter(s => { const d = daysUntil(s.date); return d >= 0 && d <= 30; }).sort((a,b)=>daysUntil(a.date)-daysUntil(b.date));
   const el = document.getElementById('reminderList');
@@ -1741,6 +1848,9 @@ function renderReminders() {
   }).join('');
 }
 
+// ──────────────────────────────────────────
+// ANALYTICS — UPGRADE: Chart colors respect dark mode
+// ──────────────────────────────────────────
 let pieChartInst, barChartInst;
 function renderAnalytics() {
   const cats   = {};
@@ -1752,7 +1862,7 @@ function renderAnalytics() {
   const isDark    = document.documentElement.getAttribute('data-theme') === 'dark';
   const textColor = isDark ? '#7f87b8' : '#52587a';
   const gridColor = isDark ? 'rgba(79,131,247,0.07)' : 'rgba(37,99,235,0.06)';
-  const bgColor   = isDark ? '#0f1425' : '#ffffff';
+  const bgColor   = isDark ? '#0f1425'  : '#ffffff';
 
   if (pieChartInst) pieChartInst.destroy();
   const pieCtx = document.getElementById('pieChart').getContext('2d');
@@ -1762,6 +1872,7 @@ function renderAnalytics() {
     options: {
       plugins: { legend: { position: 'bottom', labels: { color: textColor, font: { size: 12, family: 'Cabinet Grotesk' }, padding: 16, usePointStyle: true, pointStyleWidth: 10 } } },
       maintainAspectRatio: false, cutout: '68%',
+      // UPGRADE: Smooth animation on chart load
       animation: { duration: 900, easing: 'easeOutQuart' }
     }
   });
@@ -1799,6 +1910,9 @@ function renderAnalytics() {
   }).join('');
 }
 
+// ──────────────────────────────────────────
+// MODAL
+// ──────────────────────────────────────────
 function openModal(id) {
   const modal = document.getElementById('modalOverlay');
   const form  = document.getElementById('subForm');
@@ -1848,23 +1962,21 @@ function saveSub(e) {
   showToast(id ? '✅ Subscription updated!' : '🎉 Subscription added!', 'success');
 }
 
-function editSub(id) { openModal(id); }
+function editSub(id)  { openModal(id); }
 
 function deleteSub(id) {
   const s = subs.find(x => x.id === id);
   if (!s) return;
-  showConfirm(
-    `Delete <strong>${esc(s.name)}</strong>?`,
-    'This cannot be undone.',
-    () => {
-      subs = subs.filter(x => x.id !== id);
-      saveData();
-      refreshAll();
-      showToast(`🗑️ "${s.name}" deleted`, 'error');
-    }
-  );
+  if (!confirm(`Delete "${s.name}"? This cannot be undone.`)) return;
+  subs = subs.filter(x => x.id !== id);
+  saveData();
+  refreshAll();
+  showToast(`🗑️ "${s.name}" deleted`, 'error');
 }
 
+// ──────────────────────────────────────────
+// EXPORT CSV
+// ──────────────────────────────────────────
 function exportCSV() {
   if (!subs.length) { showToast('No subscriptions to export', 'error'); return; }
   const rows = [['Name','Cost','Cycle','Category','Next Billing Date','Active Use'],...subs.map(s=>[s.name,s.cost,s.cycle,s.category,s.date,s.used?'Yes':'No'])];
@@ -1876,8 +1988,12 @@ function exportCSV() {
   showToast('📥 CSV exported!', 'success');
 }
 
+// ──────────────────────────────────────────
+// DARK MODE — UPGRADE: Smooth transition & chart refresh
+// ──────────────────────────────────────────
 function toggleDark() {
   const dark = document.getElementById('darkToggle').checked;
+  // UPGRADE: Slight delay so CSS transition is visible before chart redraws
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
   localStorage.setItem('SaveStack_theme', dark ? 'dark' : 'light');
   setTimeout(() => {
@@ -1885,25 +2001,35 @@ function toggleDark() {
   }, 150);
 }
 
+// ──────────────────────────────────────────
+// TOAST — UPGRADE: Polished entrance
+// ──────────────────────────────────────────
 let toastTimer;
 function showToast(msg, type = '') {
   const t = document.getElementById('toast');
   clearTimeout(toastTimer);
   t.textContent = msg;
   t.className   = 'toast ' + type;
+  // Force reflow to restart animation if already showing
   void t.offsetWidth;
   t.classList.add('show');
   toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// refreshAll — renderInsights() removed from call list
+// ──────────────────────────────────────────
+// REFRESH
+// ──────────────────────────────────────────
 function refreshAll() {
   renderDashboard();
   renderSubs();
+  renderInsights();
   renderReminders();
   if (document.getElementById('page-analytics').classList.contains('active')) renderAnalytics();
 }
 
+// ──────────────────────────────────────────
+// INIT
+// ──────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   loadData();
   const theme = localStorage.getItem('SaveStack_theme');
@@ -1911,6 +2037,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.documentElement.setAttribute('data-theme','dark');
     document.getElementById('darkToggle').checked = true;
   }
+  // UPGRADE: Small delay so entry animations feel intentional, not instant
   setTimeout(refreshAll, 60);
 });
 </script>
