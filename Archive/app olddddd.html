@@ -481,57 +481,6 @@ input:checked + .toggle-slider::before { transform: translate(16px, -50%); backg
 .checkbox-row input[type="checkbox"] { accent-color: var(--brand); width: 14px; height: 14px; cursor: pointer; }
 .checkbox-row label { font-size: 12.5px; color: var(--text2); cursor: pointer; font-weight: 500; }
 
-/* ═══ REMINDER TOGGLE ═══ */
-.reminder-toggle-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 10px;
-  background: var(--surface2);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  margin-top: 8px;
-  cursor: pointer;
-  transition: all 0.18s var(--ease);
-}
-.reminder-toggle-row:hover { border-color: var(--border2); background: var(--brand-faint); }
-.reminder-toggle-row.active { border-color: rgba(79,70,229,0.25); background: var(--brand-faint2); }
-.reminder-toggle-label { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text2); }
-.reminder-toggle-label svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.reminder-toggle-row.active .reminder-toggle-label { color: var(--brand); }
-
-.reminder-mini-select {
-  padding: 4px 8px;
-  border-radius: 6px;
-  border: 1.5px solid var(--border2);
-  background: var(--surface);
-  color: var(--brand);
-  font-family: 'Sora', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  outline: none;
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-.reminder-mini-select:focus { border-color: var(--brand); box-shadow: var(--brand-glow); }
-
-/* reminder overview items */
-.reminder-overview-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 16px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  margin-bottom: 8px;
-  transition: all 0.15s var(--ease);
-  animation: cardEntry 0.35s var(--ease) both;
-}
-.reminder-overview-item:hover { border-color: var(--border2); transform: translateX(2px); background: var(--brand-faint); }
-.reminder-overview-item.active-reminder { border-left: 3px solid var(--brand); }
-.reminder-overview-item.no-reminder { opacity: 0.6; }
-
 /* ═══ PRO GATE ═══ */
 .pro-gate {
   position: relative;
@@ -1048,10 +997,9 @@ input:checked + .toggle-slider::before { transform: translate(16px, -50%); backg
       <div class="page-subtitle">All your active digital subscriptions in one place</div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn btn-outline" onclick="openUpgrade('export')" title="Export CSV — Premium feature">
+      <button class="btn btn-outline" onclick="exportCSV()">
         <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Export CSV
-        <span style="font-size:8px;font-weight:800;padding:2px 5px;border-radius:100px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;letter-spacing:0.05em">PRO</span>
       </button>
       <button class="btn btn-primary" onclick="openModal()">
         <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -1087,21 +1035,23 @@ input:checked + .toggle-slider::before { transform: translate(16px, -50%); backg
   <div class="page-header">
     <div>
       <div class="page-title">Reminders</div>
-      <div class="page-subtitle">Never get surprised by a charge again</div>
+      <div class="page-subtitle">Never miss a billing date again</div>
     </div>
   </div>
 
-  <!-- Upcoming billing (all plans) -->
-  <div class="card" style="margin-bottom:16px">
+  <!-- Basic reminders (all plans) -->
+  <div class="card" style="margin-bottom:18px">
     <div class="section-title">
       <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      Upcoming in the next 30 days
+      Upcoming Billing Dates — Next 30 Days
     </div>
     <div id="reminderList"><div class="no-items">No upcoming payments in the next 30 days.</div></div>
   </div>
 
-  <!-- Custom reminders overview — Pro gate -->
-  <div id="customRemindersSection"></div>
+  <!-- Custom reminders (Pro gate) -->
+  <div id="customRemindersSection">
+    <!-- injected by JS based on plan -->
+  </div>
 </div>
 
 <!-- IDLE DETECTION (Pro) -->
@@ -1426,15 +1376,13 @@ function openUpgrade(context) {
   const descs = {
     calculator: '🧮 The Savings Calculator shows you exactly how much you could save by cancelling idle subscriptions — with sliders to customize which ones you cut.',
     idle: '⏰ Idle Detection automatically flags subscriptions you haven\'t been using, so you can decide what to keep and what to cancel.',
-    reminders: '🔔 Custom Billing Reminders let you set personalised alerts for each subscription — get notified 1, 3, 5, or 7 days before you\'re charged.',
-    export: '📥 Export your subscription data to CSV or PDF. Available on the Premium plan — perfect for budgeting and record keeping.',
+    reminders: '🔔 Custom Billing Reminders let you set personalised alerts for each subscription — 3, 5, or 7 days before you\'re charged.',
     general: '🚀 Upgrade to Pro or Premium to unlock powerful savings features.'
   };
   const titles = {
     calculator: 'Unlock Savings Calculator',
     idle: 'Unlock Idle Detection',
     reminders: 'Unlock Custom Reminders',
-    export: 'Export — Premium Feature',
     general: 'Upgrade Your Plan'
   };
   document.getElementById('upgradeTitle').textContent = titles[context] || titles.general;
@@ -1530,33 +1478,6 @@ function renderSubs() {
     const unusedTag = !s.used ? `<div class="insight-tag insight-warn"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Possibly unused</div>` : '';
     const soonTag   = days >= 0 && days <= 7 ? `<div class="insight-tag insight-info"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Due in ${days}d</div>` : '';
     const monthly   = s.cycle === 'yearly' ? (s.cost/12).toFixed(2) : s.cost.toFixed(2);
-
-    // Reminder toggle (Pro only)
-    const rMap = JSON.parse(localStorage.getItem('SaveStack_reminderDays') || '{}');
-    const rOn  = rMap[s.id] !== undefined;
-    const rDays = rMap[s.id] || 3;
-    const reminderRow = hasPro()
-      ? `<div class="reminder-toggle-row ${rOn ? 'active' : ''}" id="rtRow_${esc(s.id)}" onclick="handleReminderToggleClick(event,'${esc(s.id)}')">
-          <span class="reminder-toggle-label">
-            <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-            ${rOn ? '🔔 Reminder: ON' : '🔕 Reminder: OFF'}
-          </span>
-          ${rOn ? `<select class="reminder-mini-select" onclick="event.stopPropagation()" onchange="setReminderDays('${esc(s.id)}',this.value)">
-            <option value="1" ${rDays==1?'selected':''}>1 day before</option>
-            <option value="3" ${rDays==3?'selected':''}>3 days before</option>
-            <option value="5" ${rDays==5?'selected':''}>5 days before</option>
-            <option value="7" ${rDays==7?'selected':''}>7 days before</option>
-            <option value="14" ${rDays==14?'selected':''}>14 days before</option>
-          </select>` : '<span style="font-size:11px;color:var(--text3)">Click to enable</span>'}
-        </div>`
-      : `<div class="reminder-toggle-row" onclick="openUpgrade('reminders')" title="Pro feature" style="cursor:pointer">
-          <span class="reminder-toggle-label">
-            <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-            🔕 Reminder: OFF
-          </span>
-          <span style="font-size:8px;font-weight:800;padding:2px 6px;border-radius:100px;background:linear-gradient(135deg,var(--brand),var(--brand-light));color:white;letter-spacing:0.05em">PRO</span>
-        </div>`;
-
     return `<div class="sub-card" style="animation-delay:${i * 0.04}s">
       ${unusedTag}${soonTag}
       <div class="sub-card-header">
@@ -1569,8 +1490,7 @@ function renderSubs() {
         <div class="sub-detail-item"><div class="sub-detail-label">Next billing</div><div class="sub-detail-value" style="font-size:11px;letter-spacing:0">${esc(s.date)}</div></div>
         <div class="sub-detail-item"><div class="sub-detail-label">Days left</div><div class="sub-detail-value" style="color:${days<=7?'var(--red)':'var(--text)'}">${days >= 0 ? days + 'd' : 'Overdue'}</div></div>
       </div>
-      ${reminderRow}
-      <div class="sub-actions" style="margin-top:10px">
+      <div class="sub-actions">
         <button class="btn btn-outline btn-sm" onclick="editSub('${esc(s.id)}')"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit</button>
         <button class="btn btn-danger btn-sm" onclick="deleteSub('${esc(s.id)}')"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Delete</button>
         <button class="btn btn-outline btn-sm" style="margin-left:auto" onclick="toggleUsed('${esc(s.id)}')">${s.used ? '✅ Used' : '❌ Unused'}</button>
@@ -1586,11 +1506,10 @@ function toggleUsed(id) {
 
 // ═══ REMINDERS ═══
 function renderReminders() {
-  // Upcoming billing list (all plans)
   const upcoming = subs.filter(s => { const d = daysUntil(s.date); return d >= 0 && d <= 30; }).sort((a,b)=>daysUntil(a.date)-daysUntil(b.date));
   const el = document.getElementById('reminderList');
-  if (!upcoming.length) { el.innerHTML = '<div class="no-items">No upcoming payments in the next 30 days.</div>'; }
-  else el.innerHTML = upcoming.map((s, i) => {
+  if (!upcoming.length) { el.innerHTML = '<div class="no-items">No upcoming payments in the next 30 days.</div>'; return; }
+  el.innerHTML = upcoming.map((s, i) => {
     const d    = daysUntil(s.date);
     const icon = getIcon(s.name, s.category, s.icon);
     const urgency = d <= 3 ? 'style="color:var(--red)"' : d <= 7 ? 'style="color:var(--amber)"' : '';
@@ -1603,167 +1522,64 @@ function renderReminders() {
     </div>`;
   }).join('');
 
-  // Custom reminders overview section
+  // Custom reminders section
   const sec = document.getElementById('customRemindersSection');
   if (!hasPro()) {
-    sec.innerHTML = `<div style="position:relative">
+    sec.innerHTML = `<div style="position:relative;margin-top:4px">
       <div class="pro-gate-blur">
         <div class="card">
           <div class="section-title"><svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Custom Reminder Settings</div>
           <div style="display:flex;flex-direction:column;gap:8px">
-            ${subs.slice(0,3).map(s=>`<div class="reminder-overview-item active-reminder">
-              <div style="font-size:18px">${getIcon(s.name,s.category,s.icon)}</div>
-              <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--text)">${esc(s.name)}</div></div>
-              <span style="font-size:11px;color:var(--brand);font-weight:600">3 days before</span>
-            </div>`).join('')}
+            ${subs.slice(0,3).map(s => `<div class="custom-reminder-card"><div class="reminder-sub-name">${getIcon(s.name,s.category,s.icon)} ${esc(s.name)}</div><div class="reminder-days-badge">3 days before</div></div>`).join('')}
           </div>
         </div>
       </div>
       <div class="pro-gate-overlay">
         <div class="pro-gate-icon">🔔</div>
         <div class="pro-gate-title">Custom Billing Reminders</div>
-        <div class="pro-gate-desc">Set personalised reminder windows per subscription. Get notified 1, 3, 5, or 7 days before each charge — never get surprised again.</div>
+        <div class="pro-gate-desc">Set personalised reminder windows for each subscription — get notified 3, 5, or 7 days before you're charged.</div>
         <button class="btn btn-primary" onclick="openUpgrade('reminders')" style="margin-top:4px">Upgrade to Pro</button>
       </div>
     </div>`;
-    return;
+  } else {
+    renderCustomReminders(sec);
   }
-
-  // Pro — full reminder overview
-  const rMap = JSON.parse(localStorage.getItem('SaveStack_reminderDays') || '{}');
-  const defaultDays = parseInt(localStorage.getItem('SaveStack_defaultReminderDays') || '3');
-  const remindersOn  = subs.filter(s => rMap[s.id] !== undefined);
-  const remindersOff = subs.filter(s => rMap[s.id] === undefined);
-
-  sec.innerHTML = `
-    <div class="card" style="margin-bottom:14px">
-      <div class="pro-feature-header"><span class="pfh-icon">🔔</span> Custom Reminder Settings <span class="pfh-badge">Pro</span></div>
-
-      <!-- Global defaults -->
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:12px 16px;background:var(--brand-faint2);border:1.5px solid var(--border2);border-radius:var(--r);margin-bottom:16px">
-        <div>
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--brand);margin-bottom:3px">Default for new subscriptions</div>
-          <div style="font-size:12px;color:var(--text2)">Auto-applied when you add a new subscription</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <select class="reminder-mini-select" style="padding:6px 10px;font-size:12px" onchange="setDefaultReminder(this.value)">
-            <option value="1" ${defaultDays==1?'selected':''}>1 day before</option>
-            <option value="3" ${defaultDays==3?'selected':''}>3 days before</option>
-            <option value="5" ${defaultDays==5?'selected':''}>5 days before</option>
-            <option value="7" ${defaultDays==7?'selected':''}>7 days before</option>
-            <option value="14" ${defaultDays==14?'selected':''}>14 days before</option>
-          </select>
-          <button class="btn btn-outline btn-sm" onclick="enableAllReminders()">Enable all</button>
-          <button class="btn btn-outline btn-sm" onclick="disableAllReminders()">Turn off all</button>
-        </div>
-      </div>
-
-      ${subs.length === 0 ? '<div class="no-items">Add subscriptions to configure reminders.</div>' : `
-      <div class="section-title" style="margin-bottom:10px">
-        <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        All subscriptions (${remindersOn.length} of ${subs.length} with reminders on)
-      </div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        ${subs.map((s,i) => {
-          const rOn   = rMap[s.id] !== undefined;
-          const rDays = rMap[s.id] || defaultDays;
-          const days  = daysUntil(s.date);
-          return `<div class="reminder-overview-item ${rOn ? 'active-reminder' : 'no-reminder'}" style="animation-delay:${i*0.04}s">
-            <div style="font-size:18px;width:32px;text-align:center;flex-shrink:0">${getIcon(s.name,s.category,s.icon)}</div>
-            <div style="flex:1;min-width:0">
-              <div style="font-size:13px;font-weight:700;color:var(--text)">${esc(s.name)}</div>
-              <div style="font-size:11px;color:var(--text3)">$${s.cost.toFixed(2)}/${s.cycle==='yearly'?'yr':'mo'} · Due in ${days >= 0 ? days + 'd' : 'overdue'}</div>
-            </div>
-            ${rOn
-              ? `<select class="reminder-mini-select" onchange="setReminderDays('${esc(s.id)}',this.value)">
-                  <option value="1" ${rDays==1?'selected':''}>1 day before</option>
-                  <option value="3" ${rDays==3?'selected':''}>3 days before</option>
-                  <option value="5" ${rDays==5?'selected':''}>5 days before</option>
-                  <option value="7" ${rDays==7?'selected':''}>7 days before</option>
-                  <option value="14" ${rDays==14?'selected':''}>14 days before</option>
-                </select>
-                <button class="btn btn-outline btn-sm" style="color:var(--text3)" onclick="disableReminder('${esc(s.id)}')">Turn off</button>`
-              : `<span style="font-size:11px;color:var(--text3);margin-right:8px">Off</span>
-                 <button class="btn btn-outline btn-sm" style="border-color:var(--border2);color:var(--brand)" onclick="enableReminder('${esc(s.id)}')">Enable</button>`
-            }
-          </div>`;
-        }).join('')}
-      </div>`}
-    </div>
-  `;
 }
 
-function handleReminderToggleClick(event, id) {
-  const rMap = JSON.parse(localStorage.getItem('SaveStack_reminderDays') || '{}');
-  if (rMap[id] !== undefined) {
-    // Toggle off if clicking the row (not the select)
-    if (event.target.tagName !== 'SELECT' && event.target.tagName !== 'OPTION') {
-      delete rMap[id];
-      localStorage.setItem('SaveStack_reminderDays', JSON.stringify(rMap));
-      showToast('🔕 Reminder turned off', '');
-      renderSubs();
-    }
-  } else {
-    const defaultDays = parseInt(localStorage.getItem('SaveStack_defaultReminderDays') || '3');
-    rMap[id] = defaultDays;
-    localStorage.setItem('SaveStack_reminderDays', JSON.stringify(rMap));
-    showToast('🔔 Reminder enabled — ' + defaultDays + ' days before', 'success');
-    renderSubs();
-  }
+function renderCustomReminders(container) {
+  const reminderDays = JSON.parse(localStorage.getItem('SaveStack_reminderDays') || '{}');
+  container.innerHTML = `<div class="card">
+    <div class="pro-feature-header"><span class="pfh-icon">🔔</span> Custom Reminder Settings <span class="pfh-badge">Pro</span></div>
+    <div class="section-title"><svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Reminder Window Per Subscription</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${subs.length === 0 ? '<div class="no-items">Add subscriptions to configure reminders.</div>' :
+        subs.map(s => {
+          const days = reminderDays[s.id] || 3;
+          return `<div class="custom-reminder-card">
+            <div class="sub-icon" style="background:${catBg[s.category]||'rgba(107,114,128,0.08)'}; width:34px;height:34px;font-size:16px">${getIcon(s.name,s.category,s.icon)}</div>
+            <div class="reminder-sub-info">
+              <div class="reminder-sub-name">${esc(s.name)}</div>
+              <div class="reminder-sub-meta">Next: ${esc(s.date)} · $${s.cost.toFixed(2)}/${s.cycle==='yearly'?'yr':'mo'}</div>
+            </div>
+            <select class="filter-select" style="font-size:12px;padding:6px 10px" onchange="setReminderDays('${esc(s.id)}', this.value)">
+              <option value="1" ${days==1?'selected':''}>1 day before</option>
+              <option value="3" ${days==3?'selected':''}>3 days before</option>
+              <option value="5" ${days==5?'selected':''}>5 days before</option>
+              <option value="7" ${days==7?'selected':''}>7 days before</option>
+              <option value="14" ${days==14?'selected':''}>14 days before</option>
+            </select>
+          </div>`;
+        }).join('')
+      }
+    </div>
+  </div>`;
 }
 
 function setReminderDays(id, days) {
-  const rMap = JSON.parse(localStorage.getItem('SaveStack_reminderDays') || '{}');
-  rMap[id] = parseInt(days);
-  localStorage.setItem('SaveStack_reminderDays', JSON.stringify(rMap));
+  const map = JSON.parse(localStorage.getItem('SaveStack_reminderDays') || '{}');
+  map[id] = parseInt(days);
+  localStorage.setItem('SaveStack_reminderDays', JSON.stringify(map));
   showToast(`⏰ Reminder set to ${days} days before`, 'success');
-  renderSubs();
-}
-
-function enableReminder(id) {
-  const defaultDays = parseInt(localStorage.getItem('SaveStack_defaultReminderDays') || '3');
-  setReminderDays(id, defaultDays);
-  renderReminders();
-}
-
-function disableReminder(id) {
-  const rMap = JSON.parse(localStorage.getItem('SaveStack_reminderDays') || '{}');
-  delete rMap[id];
-  localStorage.setItem('SaveStack_reminderDays', JSON.stringify(rMap));
-  showToast('🔕 Reminder turned off', '');
-  renderReminders();
-  renderSubs();
-}
-
-function enableAllReminders() {
-  const defaultDays = parseInt(localStorage.getItem('SaveStack_defaultReminderDays') || '3');
-  const rMap = {};
-  subs.forEach(s => { rMap[s.id] = defaultDays; });
-  localStorage.setItem('SaveStack_reminderDays', JSON.stringify(rMap));
-  showToast('🔔 All reminders enabled', 'success');
-  renderReminders(); renderSubs();
-}
-
-function disableAllReminders() {
-  localStorage.setItem('SaveStack_reminderDays', '{}');
-  showToast('🔕 All reminders turned off', '');
-  renderReminders(); renderSubs();
-}
-
-function setDefaultReminder(days) {
-  localStorage.setItem('SaveStack_defaultReminderDays', days);
-  showToast(`⚙️ Default set to ${days} days before`, 'success');
-}
-
-// Auto-enable reminder when sub is added (Pro only)
-function autoEnableReminderForNew(id) {
-  if (!hasPro()) return;
-  const defaultDays = parseInt(localStorage.getItem('SaveStack_defaultReminderDays') || '3');
-  const rMap = JSON.parse(localStorage.getItem('SaveStack_reminderDays') || '{}');
-  if (rMap[id] === undefined) {
-    rMap[id] = defaultDays;
-    localStorage.setItem('SaveStack_reminderDays', JSON.stringify(rMap));
-  }
 }
 
 // ═══ IDLE DETECTION (Pro) ═══
@@ -2070,7 +1886,7 @@ function saveSub(e) {
     used:     document.getElementById('fused').checked,
   };
   if (id) { const i = subs.findIndex(x => x.id === id); subs[i] = sub; }
-  else { subs.push(sub); autoEnableReminderForNew(sub.id); }
+  else subs.push(sub);
   saveData();
   closeModal();
   refreshAll();
